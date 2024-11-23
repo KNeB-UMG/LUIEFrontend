@@ -1,15 +1,17 @@
- FROM node:21-alpine
+FROM node:22-alpine
 
-   WORKDIR /app
+WORKDIR /app
 
-   COPY package*.json ./
+# Install dependencies first for better caching
+COPY package.json package-lock.json* ./
+RUN npm install
 
-   RUN npm install
+# Next.js specific build setup
+COPY . .
+RUN npm run build
 
-   COPY . .
+# Next.js runs on 3000 by default
+EXPOSE 3000
 
-   RUN npm run build
-
-   EXPOSE 3000
-
-   CMD ["npm", "run", "start"]
+# Use development mode
+CMD ["npm", "run", "dev"]
