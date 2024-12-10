@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, Button, Col, Form, Input, Row, Select, Typography } from "antd";
 import { useNavigate } from 'react-router-dom';
 import { uiConfigs } from '../uiConfig';
+import { jwtDecode } from 'jwt-decode';
 
 const { Title, Paragraph } = Typography;
 const { Option } = Select;
@@ -24,6 +25,7 @@ export const apiUrl = 'http://localhost:9006/api';
 export default function Home() {
   const [error, setError] = useState<any>()
   const navigate = useNavigate()
+
   const onFinish = (values: FormProps) => {
     fetch(`${apiUrl}/createentry`, {
       method: 'POST',
@@ -34,13 +36,17 @@ export default function Home() {
     })
       .then((response) => response.json())
       .then((data: CreateEntryProps) => {
-        if (data.status === 'succesfully created entry') {
+        if (data.status === 'succesfully created entry' || data.status === 'succesfully renewed session') {
           localStorage.setItem('token', data.token);
-          localStorage.setItem('currentStep', data.currentStep);
-          
-          // const nextUI = uiConfigs[data.currentStep]
-        
-          // localStorage.setItem('navigation', nextUI.nav === 'sidebar');
+
+          const currentStepConfig = uiConfigs[data.currentStep];
+          if (currentStepConfig) {
+            localStorage.setItem('currentStep', JSON.stringify({step:data.currentStep, ...currentStepConfig}));
+          }
+
+          if (currentStepConfig?.link) {
+            navigate(`/${currentStepConfig.link}`);
+          }
         }
       })
       .catch((error) => {
@@ -131,7 +137,7 @@ export default function Home() {
             {error && (
               <Alert
                 message="Wystąpił błąd"
-                description='foobar'
+                description={error}
                 type="error"
                 closable
                 onClose={() => setError(null)}

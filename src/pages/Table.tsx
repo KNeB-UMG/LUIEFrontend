@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { Tag, Checkbox, Row, Col, Typography, Table } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Tag, Checkbox, Row, Col, Typography, Table, Spin } from 'antd';
+import { useNextStepModal } from '../components/steps/NextStepContext';
+import { UIViewProps } from '../uiConfig';
+import { useNavigation } from '../components/navigation/NavigationContext';
+import { NextStepModal } from '../components/steps/NextStepModal';
 
 const { Title } = Typography;
 
@@ -42,14 +46,59 @@ const products = [
 ];
 
 export default function ProductTable() {
+
+  const { open, ref } = useNextStepModal();
+
+  const [loading, setLoading] = useState<boolean[]>([true]);
+
+  const currentStepData: UIViewProps | null = JSON.parse(localStorage.getItem('currentStep') || 'null');
+
+  const { isSidebar, toggleNavigation } = useNavigation();
+
+  useEffect(() => {
+    if (currentStepData) {
+      if (
+        (isSidebar && currentStepData.nav === 'navbar') ||
+        (!isSidebar && currentStepData.nav === 'sidebar')
+      ) {
+        toggleNavigation();
+      }
+
+      if (currentStepData.laggs) {
+        const loadingDurations = loading.map(() => Math.random() * (8000 - 4000) + 4000);
+        const timeouts: NodeJS.Timeout[] = [];
+
+        loadingDurations.forEach((duration, index) => {
+          const timeoutId = setTimeout(() => {
+            setLoading((prev) => {
+              const newLoading = [...prev];
+              newLoading[index] = false;
+              return newLoading;
+            });
+          }, duration);
+          timeouts.push(timeoutId);
+        });
+
+        return () => {
+          timeouts.forEach(clearTimeout);
+        };
+      } else {
+        setLoading([false]);
+      }
+    }
+  }, [currentStepData, isSidebar, toggleNavigation]);
+
+
   const [selectedKeys, setSelectedKeys] = useState([]);
 
   const rowSelection = {
     selectedRowKeys: selectedKeys,
-    onChange: (selectedRowKeys:any) => {
+    onChange: (selectedRowKeys: any) => {
       setSelectedKeys(selectedRowKeys);
+      open
     },
   };
+
 
   const columns = [
     {
@@ -66,7 +115,7 @@ export default function ProductTable() {
       title: 'Dostępność',
       dataIndex: 'availability',
       key: 'availability',
-      render: (text:string) => (
+      render: (text: string) => (
         <Tag color={text === 'Dostępne' ? 'green' : 'red'}>{text}</Tag>
       ),
     },
@@ -74,7 +123,7 @@ export default function ProductTable() {
       title: 'Promocja',
       dataIndex: 'promotion',
       key: 'promotion',
-      render: (text:string) =>
+      render: (text: string) =>
         text === 'Brak promocji' ? (
           <Tag color="default">{text}</Tag>
         ) : (
@@ -85,20 +134,26 @@ export default function ProductTable() {
 
   return (
     <div style={{ padding: '20px 50px' }}>
+      <NextStepModal ref={ref} />
       <Row>
         <Col span={24}>
           <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
             Produkty w supermarkecie
+            <Title level={4} style={{ textAlign: 'center', marginBottom: '20px' }}>
+              Zaznacz natańszy produkt
+            </Title>
           </Title>
         </Col>
       </Row>
-      <Table
-        rowSelection={{ type: 'checkbox', ...rowSelection }}
-        columns={columns}
-        dataSource={products}
-        pagination={{ pageSize: 5 }}
-        bordered
-      />
+      <Spin spinning={loading[0]} tip="Loading...">
+        <Table
+          rowSelection={{ type: 'checkbox', ...rowSelection }}
+          columns={columns}
+          dataSource={products}
+          pagination={{ pageSize: 5 }}
+          bordered
+        />
+      </Spin>
     </div>
   );
 }

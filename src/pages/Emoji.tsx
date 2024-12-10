@@ -1,5 +1,5 @@
-import React from 'react';
-import { Layout, Typography, Row, Col } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Layout, Typography, Row, Col, Spin } from 'antd';
 import {
   SmileOutlined,
   MehOutlined,
@@ -18,7 +18,6 @@ import {
   HomeOutlined,
   UserOutlined,
   TeamOutlined,
-  SettingOutlined,
   BellOutlined,
   ClockCircleOutlined,
   FlagOutlined,
@@ -44,6 +43,10 @@ import {
   LockOutlined,
   UnlockOutlined,
 } from '@ant-design/icons';
+import { NextStepModal } from '../components/steps/NextStepModal';
+import { useNextStepModal } from '../components/steps/NextStepContext';
+import { UIViewProps } from '../uiConfig';
+import { useNavigation } from '../components/navigation/NavigationContext';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -102,29 +105,79 @@ const categories = {
 };
 
 export default function EmojiPage() {
+
+  const [loading, setLoading] = useState<boolean[]>([true, true, true, true, true]);
+  const { open, ref } = useNextStepModal();
+
+  const currentStepData: UIViewProps | null = JSON.parse(localStorage.getItem('currentStep') || 'null');
+
+  const { isSidebar, toggleNavigation } = useNavigation();
+
+  useEffect(() => {
+    if (currentStepData) {
+      if (
+        (isSidebar && currentStepData.nav === 'navbar') ||
+        (!isSidebar && currentStepData.nav === 'sidebar')
+      ) {
+        toggleNavigation();
+      }
+
+      if (currentStepData.laggs) {
+        const loadingDurations = loading.map(() => Math.random() * (8000 - 4000) + 4000);
+        const timeouts: NodeJS.Timeout[] = [];
+
+        loadingDurations.forEach((duration, index) => {
+          const timeoutId = setTimeout(() => {
+            setLoading((prev) => {
+              const newLoading = [...prev];
+              newLoading[index] = false;
+              return newLoading;
+            });
+          }, duration);
+          timeouts.push(timeoutId);
+        });
+
+        return () => {
+          timeouts.forEach(clearTimeout);
+        };
+      } else {
+        setLoading([false, false, false, false, false]);
+      }
+    }
+  }, [currentStepData, isSidebar, toggleNavigation]);
+
+
   return (
+    <>
+    <NextStepModal ref={ref} />
     <Layout style={{ padding: '20px 50px' }}>
       <Content>
         <Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>
           Ant Design Emoji Gallery
+          <Title level={4} style={{ textAlign: 'center', marginBottom: '20px' }}>
+            Kliknij najładniejszą emotke
+          </Title>
         </Title>
-        {Object.entries(categories).map(([category, icons]) => (
+        {Object.entries(categories).map(([category, icons], index) => (
+          <Spin spinning={loading[index]} tip="Loading...">
           <div key={category} style={{ marginBottom: '40px' }}>
             <Title level={4} style={{ marginBottom: '20px' }}>
               {category}
             </Title>
             <Row gutter={[16, 16]}>
               {icons.map((IconComponent, index) => (
-                <Col key={index} xs={6} sm={4} md={3} lg={2} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '24px', marginBottom: '10px' }}>
-                    <IconComponent />
-                  </div>
-                </Col>
+                  <Col key={index} xs={6} sm={4} md={3} lg={2} style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '24px', marginBottom: '10px' }}>
+                      <IconComponent onClick={open}/>
+                    </div>
+                  </Col>
               ))}
             </Row>
           </div>
+          </Spin>
         ))}
       </Content>
     </Layout>
+    </>
   );
 }

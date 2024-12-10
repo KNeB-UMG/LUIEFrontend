@@ -1,3 +1,10 @@
+export type UIViewProps = {
+    link: string
+    nav: 'sidebar' | 'navbar'
+    laggs: boolean
+    step: string
+}
+
 export const uiConfigs = {
     UI1: {
         link: 'blog',
@@ -30,12 +37,12 @@ export const uiConfigs = {
         laggs: false
     },
     UI7: {
-        link: 'gallery',
+        link: 'emoji',
         nav: 'sidebar',
         laggs: false
     },
     UI8: {
-        link: 'gallery',
+        link: 'emoji',
         nav: 'navbar',
         laggs: false
     },

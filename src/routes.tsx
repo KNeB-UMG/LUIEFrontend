@@ -8,6 +8,7 @@ import Projects from './pages/Projects';
 import Todo from './pages/Todo';
 import ProductTable from './pages/Table';
 import EmojiPage from './pages/Emoji';
+import Finish from './pages/Finish';
 
 // /:navigation - parameter specifying the type of navigation on the page (navbar or sidebar)
 
@@ -22,6 +23,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/projects" element={<Projects />} />
       <Route path="/table" element={<ProductTable />} />
       <Route path="/todo" element={<Todo />} />
+      <Route path='/finish' element={<Finish/>}/>
       <Route path="*" element={<h1>404 - Not Found</h1>} />
     </Routes>
   );
