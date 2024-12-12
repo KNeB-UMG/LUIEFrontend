@@ -5,6 +5,8 @@ import { useNextStepModal } from '../components/steps/NextStepContext';
 import { UIViewProps } from '../uiConfig';
 import { useNavigation } from '../components/navigation/NavigationContext';
 import { NextStepModal } from '../components/steps/NextStepModal';
+import { themes } from '../theme';
+import StandardSpin from '../components/spin/StandardSpin';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -17,7 +19,7 @@ export default function Blog() {
 
   const currentStepData: UIViewProps | null = JSON.parse(localStorage.getItem('currentStep') || 'null');
 
-  const { isSidebar, toggleNavigation } = useNavigation();
+  const { isSidebar, toggleNavigation, theme } = useNavigation();
 
   useEffect(() => {
     if (currentStepData) {
@@ -101,15 +103,15 @@ export default function Blog() {
             Wznajdź i kliknij przycisk na jednym z blogów
           </Title>
         </Title>
-        <Spin spinning={loading[0]} tip="Loading...">
+        <StandardSpin spinning={loading[0]} theme={theme} >
           <Poster posts={culinaryPosts} />
-        </Spin>
-        <Spin spinning={loading[1]} tip="Loading...">
+        </StandardSpin>
+        <StandardSpin spinning={loading[1]} theme={theme}>
           <Poster posts={automotivePosts} />
-        </Spin>
-        <Spin spinning={loading[2]} tip="Loading...">
+        </StandardSpin>
+        <StandardSpin spinning={loading[2]} theme={theme} >
           <Poster posts={travelPosts} />
-        </Spin>
+        </StandardSpin>
       </Content>
     </>
   )

@@ -47,6 +47,7 @@ import { NextStepModal } from '../components/steps/NextStepModal';
 import { useNextStepModal } from '../components/steps/NextStepContext';
 import { UIViewProps } from '../uiConfig';
 import { useNavigation } from '../components/navigation/NavigationContext';
+import StandardSpin from '../components/spin/StandardSpin';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -111,7 +112,7 @@ export default function EmojiPage() {
 
   const currentStepData: UIViewProps | null = JSON.parse(localStorage.getItem('currentStep') || 'null');
 
-  const { isSidebar, toggleNavigation } = useNavigation();
+  const { isSidebar, toggleNavigation, theme } = useNavigation();
 
   useEffect(() => {
     if (currentStepData) {
@@ -149,35 +150,31 @@ export default function EmojiPage() {
 
   return (
     <>
-    <NextStepModal ref={ref} />
-    <Layout style={{ padding: '20px 50px' }}>
-      <Content>
-        <Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>
-          Ant Design Emoji Gallery
-          <Title level={4} style={{ textAlign: 'center', marginBottom: '20px' }}>
-            Kliknij najładniejszą emotke
-          </Title>
+      <NextStepModal ref={ref} />
+      <Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>
+        Ant Design Emoji Gallery
+        <Title level={4} style={{ textAlign: 'center', marginBottom: '20px' }}>
+          Kliknij najładniejszą emotke
         </Title>
-        {Object.entries(categories).map(([category, icons], index) => (
-          <Spin spinning={loading[index]} tip="Loading...">
+      </Title>
+      {Object.entries(categories).map(([category, icons], index) => (
+        <StandardSpin spinning={loading[index]} theme={theme}>
           <div key={category} style={{ marginBottom: '40px' }}>
             <Title level={4} style={{ marginBottom: '20px' }}>
               {category}
             </Title>
             <Row gutter={[16, 16]}>
               {icons.map((IconComponent, index) => (
-                  <Col key={index} xs={6} sm={4} md={3} lg={2} style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '24px', marginBottom: '10px' }}>
-                      <IconComponent onClick={open}/>
-                    </div>
-                  </Col>
+                <Col key={index} xs={6} sm={4} md={3} lg={2} style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '24px', marginBottom: '10px' }}>
+                    <IconComponent onClick={open} />
+                  </div>
+                </Col>
               ))}
             </Row>
           </div>
-          </Spin>
-        ))}
-      </Content>
-    </Layout>
+        </StandardSpin>
+      ))}
     </>
   );
 }

@@ -5,6 +5,7 @@ import { useNextStepModal } from '../components/steps/NextStepContext';
 import { useNavigation } from '../components/navigation/NavigationContext';
 import { UIViewProps } from '../uiConfig';
 import { NextStepModal } from '../components/steps/NextStepModal';
+import StandardSpin from '../components/spin/StandardSpin';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -16,7 +17,7 @@ export default function Charts() {
 
   const currentStepData: UIViewProps | null = JSON.parse(localStorage.getItem('currentStep') || 'null');
 
-  const { isSidebar, toggleNavigation } = useNavigation();
+  const { isSidebar, toggleNavigation, theme } = useNavigation();
 
   useEffect(() => {
     if (currentStepData) {
@@ -94,7 +95,7 @@ export default function Charts() {
 
   return (
     <>
-    <NextStepModal ref={ref} />
+      <NextStepModal ref={ref} />
       <Content style={{ padding: '20px 50px' }}>
         <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
           Wykresy
@@ -104,32 +105,32 @@ export default function Charts() {
         </Title>
         <Row gutter={[16, 16]}>
           <Col lg={12} xs={24}>
-            <Spin spinning={loading[0]} tip="Loading...">
+            <StandardSpin spinning={loading[0]} theme={theme} >
               <h2>Roczna sprzedaż samochodów</h2>
               <Line data={lineData} xField="month" yField="value" autoFit height={400} />
-            </Spin>
+            </StandardSpin>
           </Col>
           <Col lg={12} xs={24}>
-            <Spin spinning={loading[1]} tip="Loading...">
+            <StandardSpin spinning={loading[1]} theme={theme}>
               <h2>Udział marek samochodowych na rynku</h2>
               <Pie data={pieData1} angleField="value" colorField="type" autoFit height={400} />
-            </Spin>
+            </StandardSpin>
           </Col>
         </Row>
 
         <Row gutter={[16, 16]}>
           <Col lg={12} xs={24}>
-            <Spin spinning={loading[2]} tip="Loading...">
+            <StandardSpin spinning={loading[2]} theme={theme}>
               <h2>Najczęściej wybierane modele</h2>
               <Bar data={barData} xField="type" yField="value" autoFit height={400} />
-            </Spin>
+            </StandardSpin>
           </Col>
           <Col lg={12} xs={24}>
-            <Spin spinning={loading[3]} tip="Loading...">
+            <StandardSpin spinning={loading[3]} theme={theme}>
               <h2>Sprzedaż w regionach</h2>
               <Pie data={pieData2} angleField="value" colorField="type" autoFit height={400} />
               <Button onClick={open} type='primary'>Kliknij mnie</Button>
-            </Spin>
+            </StandardSpin>
           </Col>
         </Row>
       </Content>

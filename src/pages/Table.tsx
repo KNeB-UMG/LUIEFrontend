@@ -4,6 +4,7 @@ import { useNextStepModal } from '../components/steps/NextStepContext';
 import { UIViewProps } from '../uiConfig';
 import { useNavigation } from '../components/navigation/NavigationContext';
 import { NextStepModal } from '../components/steps/NextStepModal';
+import StandardSpin from '../components/spin/StandardSpin';
 
 const { Title } = Typography;
 
@@ -53,7 +54,7 @@ export default function ProductTable() {
 
   const currentStepData: UIViewProps | null = JSON.parse(localStorage.getItem('currentStep') || 'null');
 
-  const { isSidebar, toggleNavigation } = useNavigation();
+  const { isSidebar, toggleNavigation, theme } = useNavigation();
 
   useEffect(() => {
     if (currentStepData) {
@@ -133,7 +134,7 @@ export default function ProductTable() {
   ];
 
   return (
-    <div style={{ padding: '20px 50px' }}>
+    <>
       <NextStepModal ref={ref} />
       <Row>
         <Col span={24}>
@@ -145,7 +146,7 @@ export default function ProductTable() {
           </Title>
         </Col>
       </Row>
-      <Spin spinning={loading[0]} tip="Loading...">
+      <StandardSpin spinning={loading[0]} theme={theme}>
         <Table
           rowSelection={{ type: 'checkbox', ...rowSelection }}
           columns={columns}
@@ -153,7 +154,7 @@ export default function ProductTable() {
           pagination={{ pageSize: 5 }}
           bordered
         />
-      </Spin>
-    </div>
+      </StandardSpin>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import { useNavigation } from '../components/navigation/NavigationContext';
 import { UIViewProps } from '../uiConfig';
 import { useNextStepModal } from '../components/steps/NextStepContext';
 import { NextStepModal } from '../components/steps/NextStepModal';
+import StandardSpin from '../components/spin/StandardSpin';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState<boolean[]>([true, true, true, true]);
@@ -13,7 +14,7 @@ export default function Dashboard() {
 
   const currentStepData: UIViewProps | null = JSON.parse(localStorage.getItem('currentStep') || 'null');
 
-  const { isSidebar, toggleNavigation } = useNavigation();
+  const { isSidebar, toggleNavigation, theme } = useNavigation();
 
   useEffect(() => {
     if (currentStepData) {
@@ -76,34 +77,34 @@ export default function Dashboard() {
       </Row>
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Spin spinning={loading[0]} tip="Loading...">
+          <StandardSpin spinning={loading[0]} theme={theme}>
             <Card>
               <Statistic title="Total Users" value={1128} prefix={<UserOutlined />} />
             </Card>
-          </Spin>
+          </StandardSpin>
         </Col>
         <Col span={8}>
-          <Spin spinning={loading[1]} tip="Loading...">
+          <StandardSpin spinning={loading[1]} theme={theme}>
             <Card>
               <Statistic title="Active Sessions" value={93} />
             </Card>
-          </Spin>
+          </StandardSpin>
         </Col>
         <Col span={8}>
-          <Spin spinning={loading[2]} tip="Loading...">
+          <StandardSpin spinning={loading[2]} theme={theme}>
             <Card>
               <Statistic title="Server Load" value={75} suffix="%" />
             </Card>
-          </Spin>
+          </StandardSpin>
         </Col>
       </Row>
       <Row style={{ marginTop: '20px' }}>
         <Col span={24}>
-          <Spin spinning={loading[3]} tip="Loading...">
+          <StandardSpin spinning={loading[3]} theme={theme}>
             <Card title="User Data">
               <Table dataSource={dataSource} columns={columns} pagination={false} />
             </Card>
-          </Spin>
+          </StandardSpin>
         </Col>
       </Row>
     </>

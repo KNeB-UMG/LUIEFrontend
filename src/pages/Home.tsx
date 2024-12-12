@@ -55,13 +55,13 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '20px 50px' }}>
+    <>
       <Row>
         <Col span={24}>
           <Title level={2} style={{ textAlign: 'center', marginBottom: '10px' }}>
             Badanie KNeB UI/UX Experience
           </Title>
-          <Paragraph style={{ textAlign: 'center', marginBottom: '30px', maxWidth: '60%', marginLeft: 'auto', marginRight: 'auto' }}>
+          <Paragraph style={{ textAlign: 'center', marginBottom: '30px', marginLeft: 'auto', marginRight: 'auto' }}>
             Celem niniejszej strony jest zebranie danych na temat odczuć użytkowników wobec
             projektowania interfejsów graficznych. Wyniki tego badania pozwolą na lepsze
             zrozumienie wpływu wybranych elementów wizualnych na odbiór stron internetowych.
@@ -145,6 +145,6 @@ export default function Home() {
           </Form>
         </Col>
       </Row>
-    </div>
+    </>
   );
 }
