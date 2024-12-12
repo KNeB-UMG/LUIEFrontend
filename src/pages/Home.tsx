@@ -19,7 +19,7 @@ export type CreateEntryProps = {
   token: string
 }
 
-export const apiUrl = 'http://localhost:9006/api';
+export const apiUrl = 'https://luiebackend.raidvm.com/api';
 
 export default function Home() {
   const [error, setError] = useState<any>()
