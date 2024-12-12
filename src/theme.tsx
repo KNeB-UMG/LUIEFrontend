@@ -6,7 +6,7 @@ export const themes = {
       textColor: '#000000',
     },
     dark: {
-      primaryColor: '#001529',
+      primaryColor: '#8A96A3',
       backgroundColor: '#141414',
       textColor: '#ffffff',
     }

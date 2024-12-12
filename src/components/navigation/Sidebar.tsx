@@ -30,16 +30,16 @@ const Sidebar: React.FC = () => {
     <Sider
       width={120}
       style={{
-        backgroundColor: themes[theme].primaryColor,
+        backgroundColor: themes[theme].backgroundColor,
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}
     >
-      <Menu mode="vertical" theme={theme === 'light' ? 'light' : 'dark'}>
+      <Menu mode="vertical" theme={theme === 'light' ? 'light' : 'dark'} style={{backgroundColor: themes[theme].backgroundColor}}>
       {menuItems.map(({ key, label, path }) => (
-          <Menu.Item key={key}>
+          <Menu.Item key={key} >
             {isDevelopMode ? (
               <Link to={path}>{label}</Link>
             ) : (
