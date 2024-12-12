@@ -82,10 +82,9 @@ export default function TodoListWithDragula() {
           return (child as HTMLElement).textContent || '';
         });
       });
-      
 
       setTasks(updatedTasks);
-      drake.cancel(true); 
+      drake.cancel(true);
     });
 
     return () => drake.destroy();
@@ -97,14 +96,14 @@ export default function TodoListWithDragula() {
     setIsAllDone(doneTasks === totalTasks);
   }, [tasks]);
 
-  const addContainerRef = (ref:any) => {
+  const addContainerRef = (ref: any) => {
     if (ref && !containersRef.current.includes(ref)) {
       containersRef.current.push(ref);
     }
   };
 
-  const renderTasks = (tasks:any) =>
-    tasks.map((task:any, index:any) => (
+  const renderTasks = (tasks: any) =>
+    tasks.map((task: any, index: any) => (
       <Card key={index} style={{ marginBottom: '8px' }}>
         {task}
       </Card>
@@ -113,13 +112,14 @@ export default function TodoListWithDragula() {
   return (
     <>
       <NextStepModal ref={ref} />
+      <div style={{ overflowX: 'auto', paddingBottom: '20px' }}>
         <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
           To-Do Lista Studenta
           <Title level={4} style={{ textAlign: 'center', marginBottom: '20px' }}>
             Zakończ wszystkie zadania i kliknij przycisk
           </Title>
         </Title>
-        <Row gutter={[16, 16]}>
+        <Row gutter={[16, 16]} style={{ display: 'flex', minWidth: '800px' }}>
           <Col span={8}>
             <Title level={4}>Do zrobienia</Title>
             <div
@@ -168,6 +168,7 @@ export default function TodoListWithDragula() {
             </div>
           </Col>
         </Row>
+      </div>
     </>
   );
 }

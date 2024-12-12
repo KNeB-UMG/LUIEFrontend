@@ -12,9 +12,7 @@ import { NextStepModalProvider } from './components/steps/NextStepContext';
 const { Content } = Layout;
 
 const NavigationLayout: React.FC = () => {
-  const { isSidebar, toggleNavigation, theme } = useNavigation();
-
-  const isDevelopMode = localStorage.getItem('developMode') === 'true';
+  const { isSidebar, theme } = useNavigation();
 
   const currentTheme = {
     token: {
@@ -27,14 +25,9 @@ const NavigationLayout: React.FC = () => {
   return (
     <ConfigProvider theme={currentTheme}>
       <Layout style={{ minHeight: '100vh' }}>
-        {isSidebar ? <Sidebar /> : <Navbar />}
+      <Sidebar />
         <Layout style={{ backgroundColor: themes[theme].backgroundColor }}>
           <NextStepModalProvider>
-            {isDevelopMode && (
-              <div style={{ margin: '10px' }}>
-                <Button onClick={toggleNavigation}>Toggle Navigation</Button>
-              </div>
-            )}
             <Content style={{ padding: '20px' }}>
               <AppRoutes />
             </Content>
