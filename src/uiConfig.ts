@@ -108,12 +108,12 @@ export const uiConfigs: Record<string, UIViewProps> = {
         laggs: true
     },
     LUI7: {
-        link: 'gallery',
+        link: 'emoji',
         nav: 'sidebar',
         laggs: true
     },
     LUI8: {
-        link: 'gallery',
+        link: 'emoji',
         nav: 'navbar',
         laggs: true
     },
