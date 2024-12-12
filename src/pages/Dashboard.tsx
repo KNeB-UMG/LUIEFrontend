@@ -102,7 +102,12 @@ export default function Dashboard() {
         <Col span={24}>
           <StandardSpin spinning={loading[3]} theme={theme}>
             <Card title="User Data">
-              <Table dataSource={dataSource} columns={columns} pagination={false} />
+              <Table 
+                dataSource={dataSource} 
+                columns={columns} 
+                pagination={false} 
+                scroll={{ x: 'max-content' }} 
+              />
             </Card>
           </StandardSpin>
         </Col>

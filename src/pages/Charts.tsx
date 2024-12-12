@@ -6,6 +6,7 @@ import { useNavigation } from '../components/navigation/NavigationContext';
 import { UIViewProps } from '../uiConfig';
 import { NextStepModal } from '../components/steps/NextStepModal';
 import StandardSpin from '../components/spin/StandardSpin';
+import { themes } from '../theme';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -92,11 +93,9 @@ export default function Charts() {
     { type: 'Afryka', value: 100 },
   ];
 
-
   return (
     <>
       <NextStepModal ref={ref} />
-      <Content style={{ padding: '20px 50px' }}>
         <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
           Wykresy
           <Title level={4} style={{ textAlign: 'center', marginBottom: '20px' }}>
@@ -133,7 +132,6 @@ export default function Charts() {
             </StandardSpin>
           </Col>
         </Row>
-      </Content>
     </>
   );
 }

@@ -153,6 +153,7 @@ export default function ProductTable() {
           dataSource={products}
           pagination={{ pageSize: 5 }}
           bordered
+          scroll={{ x: 'max-content' }}
         />
       </StandardSpin>
     </>
