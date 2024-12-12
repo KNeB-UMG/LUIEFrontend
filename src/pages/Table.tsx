@@ -65,7 +65,7 @@ export default function ProductTable() {
       }
 
       if (currentStepData.laggs) {
-        const loadingDurations = loading.map(() => Math.random() * (8000 - 4000) + 4000);
+        const loadingDurations = loading.map(() => Math.random() * (6000 - 4000) + 4000);
         const timeouts: NodeJS.Timeout[] = [];
 
         loadingDurations.forEach((duration, index) => {
