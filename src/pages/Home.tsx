@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Alert, Button, Col, Form, Input, Row, Select, Typography } from "antd";
 import { useNavigate } from 'react-router-dom';
 import { uiConfigs } from '../uiConfig';
-import { jwtDecode } from 'jwt-decode';
 
 const { Title, Paragraph } = Typography;
 const { Option } = Select;

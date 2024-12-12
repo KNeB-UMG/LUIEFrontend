@@ -95,7 +95,7 @@ export default function ProductTable() {
     selectedRowKeys: selectedKeys,
     onChange: (selectedRowKeys: any) => {
       setSelectedKeys(selectedRowKeys);
-      open
+      open()
     },
   };
 

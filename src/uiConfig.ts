@@ -2,10 +2,10 @@ export type UIViewProps = {
     link: string
     nav: 'sidebar' | 'navbar'
     laggs: boolean
-    step: string
+    step?: string
 }
 
-export const uiConfigs = {
+export const uiConfigs: Record<string, UIViewProps> = {
     UI1: {
         link: 'blog',
         nav: 'sidebar',

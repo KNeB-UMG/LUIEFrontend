@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Layout, Switch } from 'antd';
 import { Link } from 'react-router-dom';
 import { useNavigation } from './NavigationContext';
-import { themes } from '../../theme';
+import { themes, ThemeType } from '../../theme';
 
 const { Header } = Layout;
 

@@ -5,7 +5,7 @@ type NavigationContextType = {
   isSidebar: boolean;
   toggleNavigation: () => void;
   theme: ThemeType;
-  setTheme: (theme: ThemeType) => void;
+  setTheme: React.Dispatch<React.SetStateAction<ThemeType>>;
 }
 
 export type NavigationProps = 'sidebar' | 'navbar' | 'smallSidebar' | ' smallNavbar' | 'none'

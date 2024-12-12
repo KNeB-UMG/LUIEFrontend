@@ -78,20 +78,20 @@ export default function TodoListWithDragula() {
       const updatedTasks = { todo: [], inProgress: [], done: [] };
       containersRef.current.forEach((container, index) => {
         const section = Object.keys(updatedTasks)[index];
-        updatedTasks[section] = Array.from(container.children).map(
-          (child) => child.textContent
-        );
+        updatedTasks[section] = Array.from(container.children).map((child) => {
+          return (child as HTMLElement).textContent || '';
+        });
       });
+      
 
       setTasks(updatedTasks);
-      drake.cancel(true); // Ensure dragula cleans up properly
+      drake.cancel(true); 
     });
 
     return () => drake.destroy();
   }, []);
 
   useEffect(() => {
-    // Check if all tasks are in the "done" section
     const totalTasks = Object.values(initialTasks).flat().length;
     const doneTasks = tasks.done.length;
     setIsAllDone(doneTasks === totalTasks);

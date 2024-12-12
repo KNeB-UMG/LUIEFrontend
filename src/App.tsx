@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, ConfigProvider } from 'antd';
+import { Layout, ConfigProvider, Button } from 'antd';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes';
 import { NavigationProvider, useNavigation } from './components/navigation/NavigationContext';
@@ -13,6 +13,8 @@ const { Content } = Layout;
 
 const NavigationLayout: React.FC = () => {
   const { isSidebar, toggleNavigation, theme } = useNavigation();
+
+  const isDevelopMode = localStorage.getItem('developMode') === 'true';
 
   const currentTheme = {
     token: {
@@ -28,9 +30,11 @@ const NavigationLayout: React.FC = () => {
         {isSidebar ? <Sidebar /> : <Navbar />}
         <Layout style={{ backgroundColor: themes[theme].backgroundColor }}>
           <NextStepModalProvider>
-            {/* <div style={{ margin: '10px' }}>
-              <button onClick={toggleNavigation}>Toggle Navigation</button>
-            </div> */}
+            {isDevelopMode && (
+              <div style={{ margin: '10px' }}>
+                <Button onClick={toggleNavigation}>Toggle Navigation</Button>
+              </div>
+            )}
             <Content style={{ padding: '20px' }}>
               <AppRoutes />
             </Content>
